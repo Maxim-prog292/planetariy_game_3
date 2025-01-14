@@ -1,11 +1,35 @@
 <!DOCTYPE html>
-<html>
-  <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
-  <script src="https://raw.githack.com/jeromeetienne/AR.js/2.0.5/aframe/build/aframe-ar.js"></script>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Солнечная система</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="start-screen" class="screen active">
+    <h1>Игра "Солнечная система"</h1>
+    <p>Расположите планеты в правильном порядке, начиная от Солнца.</p>
+    <button id="start-button">Начать игру</button>
+  </div>
 
-  <body style="margin: 0px; overflow: scroll">
-    <a-scene>
-      <a-box color="red" rotation="0 45 45" scale="2 2 2"></a-box>
-    </a-scene>
-  </body>
+  <div id="game-screen" class="screen">
+    <div class="solar-system">
+      <img id="sun" class="sun" src="image/sun.png"/>
+      <div id="solar-field" class="solar-field">
+        <!-- Поле для размещения планет -->
+      </div>
+    </div>
+    <div id="planets-container" class="planets-container">
+      <!-- Планеты будут здесь -->
+    </div>
+    <div class="controls">
+      <button id="check-button">Проверить</button>
+      <button id="reset-button">Сбросить планеты</button>
+    </div>
+    <div id="result-message" class="result-message"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
