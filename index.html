@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Солнечная система</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="start-screen" class="screen active">
-    <h1>Игра "Солнечная система"</h1>
-    <p>Расположите планеты в правильном порядке, начиная от Солнца.</p>
-    <button id="start-button">Начать игру</button>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Солнечная система</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="start-screen" class="screen active">
+      <p style="font-size: 36px">Солнечная система</p>
+      <p style="font-size: 24px">Какой порядок?</p>
+      <button id="start-button">Начать</button>
+    </div>
 
-  <div id="game-screen" class="screen">
-    <div class="solar-system">
-      <img id="sun" class="sun" src="image/sun.png"/>
-      <div id="solar-field" class="solar-field">
-        <!-- Поле для размещения планет -->
+    <div id="game-screen" class="screen">
+      <div class="solar-system">
+        <img id="sun" class="sun" src="image/sun.png" />
+        <div id="solar-field" class="solar-field">
+          <!-- Поле для размещения планет -->
+        </div>
       </div>
+      <div id="planets-container" class="planets-container">
+        <!-- Планеты будут здесь -->
+      </div>
+      <div class="controls">
+        <button id="check-button">Проверить</button>
+        <button id="reset-button">Сбросить</button>
+      </div>
+      <div id="result-message" class="result-message"></div>
     </div>
-    <div id="planets-container" class="planets-container">
-      <!-- Планеты будут здесь -->
-    </div>
-    <div class="controls">
-      <button id="check-button">Проверить</button>
-      <button id="reset-button">Сбросить планеты</button>
-    </div>
-    <div id="result-message" class="result-message"></div>
-  </div>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
