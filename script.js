@@ -64,6 +64,8 @@ resetButton.addEventListener("click", () => {
 
 function enableDragAndDrop() {
   let draggedElement = null;
+  let offsetX = 0;
+  let offsetY = 0;
 
   planetsContainer.addEventListener("dragstart", (e) => {
     if (e.target.classList.contains("planet")) {
@@ -86,6 +88,68 @@ function enableDragAndDrop() {
     if (draggedElement) {
       solarField.appendChild(draggedElement);
     }
+  });
+  // Touch-Drag для сенсорных экранов
+  planetsContainer.addEventListener("touchstart", (e) => {
+    const touchTarget = e.target.closest(".planet");
+    if (touchTarget) {
+      draggedElement = touchTarget;
+      const touch = e.touches[0];
+      const rect = touchTarget.getBoundingClientRect();
+
+      offsetX = touch.clientX - rect.left;
+      offsetY = touch.clientY - rect.top;
+
+      touchTarget.style.position = "absolute";
+      touchTarget.style.zIndex = 1000;
+      touchTarget.classList.add("dragging");
+      moveAt(touch.clientX, touch.clientY);
+    }
+
+    function moveAt(x, y) {
+      if (draggedElement) {
+        draggedElement.style.left = x - offsetX + "px";
+        draggedElement.style.top = y - offsetY + "px";
+      }
+    }
+
+    const onTouchMove = (e) => {
+      const touch = e.touches[0];
+      moveAt(touch.clientX, touch.clientY);
+    };
+
+    document.addEventListener("touchmove", onTouchMove, { passive: false });
+
+    document.addEventListener(
+      "touchend",
+      (e) => {
+        document.removeEventListener("touchmove", onTouchMove);
+        draggedElement.classList.remove("dragging");
+
+        const touch = e.changedTouches[0];
+        const dropTarget = document.elementFromPoint(
+          touch.clientX,
+          touch.clientY
+        );
+        if (dropTarget && solarField.contains(dropTarget)) {
+          solarField.appendChild(draggedElement);
+          draggedElement.style.position = "";
+          draggedElement.style.left = "";
+          draggedElement.style.top = "";
+          draggedElement.style.zIndex = "";
+        } else {
+          // Возврат в исходное положение, если не на поле
+          planetsContainer.appendChild(draggedElement);
+          draggedElement.style.position = "";
+          draggedElement.style.left = "";
+          draggedElement.style.top = "";
+          draggedElement.style.zIndex = "";
+        }
+
+        draggedElement = null;
+      },
+      { once: true }
+    );
   });
 }
 
