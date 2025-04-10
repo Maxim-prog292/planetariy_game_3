@@ -67,89 +67,102 @@ function enableDragAndDrop() {
   let offsetX = 0;
   let offsetY = 0;
 
-  planetsContainer.addEventListener("dragstart", (e) => {
-    if (e.target.classList.contains("planet")) {
-      draggedElement = e.target;
-      e.target.classList.add("dragging");
-    }
+  const containers = [planetsContainer, solarField];
+
+  // -------- Drag & Drop для мыши --------
+  containers.forEach((container) => {
+    container.addEventListener("dragstart", (e) => {
+      if (e.target.classList.contains("planet")) {
+        draggedElement = e.target;
+        e.target.classList.add("dragging");
+      }
+    });
+
+    container.addEventListener("dragend", (e) => {
+      if (e.target.classList.contains("planet")) {
+        e.target.classList.remove("dragging");
+        draggedElement = null;
+      }
+    });
+
+    container.addEventListener("dragover", (e) => e.preventDefault());
+
+    container.addEventListener("drop", (e) => {
+      if (draggedElement) {
+        container.appendChild(draggedElement);
+      }
+    });
   });
 
-  planetsContainer.addEventListener("dragend", (e) => {
-    if (e.target.classList.contains("planet")) {
-      e.target.classList.remove("dragging");
-    }
-  });
+  // -------- Touch поддержка --------
+  containers.forEach((container) => {
+    container.addEventListener("touchstart", (e) => {
+      const touchTarget = e.target.closest(".planet");
+      if (!touchTarget) return;
 
-  solarField.addEventListener("dragover", (e) => {
-    e.preventDefault();
-  });
-
-  solarField.addEventListener("drop", (e) => {
-    if (draggedElement) {
-      solarField.appendChild(draggedElement);
-    }
-  });
-  // Touch-Drag для сенсорных экранов
-  planetsContainer.addEventListener("touchstart", (e) => {
-    const touchTarget = e.target.closest(".planet");
-    if (touchTarget) {
       draggedElement = touchTarget;
-      const touch = e.touches[0];
-      const rect = touchTarget.getBoundingClientRect();
 
+      const touch = e.touches[0];
+      const rect = draggedElement.getBoundingClientRect();
       offsetX = touch.clientX - rect.left;
       offsetY = touch.clientY - rect.top;
 
-      touchTarget.style.position = "absolute";
-      touchTarget.style.zIndex = 1000;
-      touchTarget.classList.add("dragging");
-      moveAt(touch.clientX, touch.clientY);
-    }
+      draggedElement.classList.add("dragging");
+      draggedElement.style.position = "absolute";
+      draggedElement.style.zIndex = 1000;
+      draggedElement.style.pointerEvents = "none"; // позволяет elementFromPoint корректно работать
 
-    function moveAt(x, y) {
-      if (draggedElement) {
+      moveAt(touch.clientX, touch.clientY);
+
+      function moveAt(x, y) {
         draggedElement.style.left = x - offsetX + "px";
         draggedElement.style.top = y - offsetY + "px";
       }
-    }
 
-    const onTouchMove = (e) => {
-      const touch = e.touches[0];
-      moveAt(touch.clientX, touch.clientY);
-    };
+      const onTouchMove = (e) => {
+        e.preventDefault(); // запрещаем прокрутку
+        const touch = e.touches[0];
+        moveAt(touch.clientX, touch.clientY);
+      };
 
-    document.addEventListener("touchmove", onTouchMove, { passive: false });
-
-    document.addEventListener(
-      "touchend",
-      (e) => {
+      const onTouchEnd = (e) => {
         document.removeEventListener("touchmove", onTouchMove);
-        draggedElement.classList.remove("dragging");
+        document.removeEventListener("touchend", onTouchEnd);
 
         const touch = e.changedTouches[0];
         const dropTarget = document.elementFromPoint(
           touch.clientX,
           touch.clientY
         );
-        if (dropTarget && solarField.contains(dropTarget)) {
-          solarField.appendChild(draggedElement);
-          draggedElement.style.position = "";
-          draggedElement.style.left = "";
-          draggedElement.style.top = "";
-          draggedElement.style.zIndex = "";
-        } else {
-          // Возврат в исходное положение, если не на поле
-          planetsContainer.appendChild(draggedElement);
-          draggedElement.style.position = "";
-          draggedElement.style.left = "";
-          draggedElement.style.top = "";
-          draggedElement.style.zIndex = "";
+
+        let dropped = false;
+        for (const cont of containers) {
+          if (cont === dropTarget || cont.contains(dropTarget)) {
+            cont.appendChild(draggedElement);
+            dropped = true;
+            break;
+          }
         }
 
+        // Если не попали — вернём обратно в исходный контейнер
+        if (!dropped) {
+          planetsContainer.appendChild(draggedElement);
+        }
+
+        // Очистка
+        draggedElement.classList.remove("dragging");
+        draggedElement.style.position = "";
+        draggedElement.style.left = "";
+        draggedElement.style.top = "";
+        draggedElement.style.zIndex = "";
+        draggedElement.style.pointerEvents = "";
+
         draggedElement = null;
-      },
-      { once: true }
-    );
+      };
+
+      document.addEventListener("touchmove", onTouchMove, { passive: false });
+      document.addEventListener("touchend", onTouchEnd, { passive: false });
+    });
   });
 }
 
