@@ -125,8 +125,8 @@ button:hover {
 
 
 #solar-field .planet[data-order="1"] {
-  width: 15px;
-  height: 15px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   margin-right: 30px;
 }
@@ -135,8 +135,8 @@ button:hover {
   display: none;
 }
 #solar-field .planet[data-order="2"] {
-  width: 35px;
-  height: 35px;
+  width: 55px;
+  height: 55px;
   padding: 0;
   margin-right: 70px;
 }
@@ -144,8 +144,8 @@ button:hover {
   display: none;
 }
 #solar-field .planet[data-order="3"] {
-  width: 37px;
-  height: 37px;
+  width: 57px;
+  height: 57px;
   padding: 0;
   margin-right: 90px;
 }
@@ -153,10 +153,10 @@ button:hover {
   display: none;
 }
 #solar-field .planet[data-order="4"] {
-  width: 32px;
-  height: 32px;
+  width: 45px;
+  height: 45px;
   padding: 0;
-  margin-right: 200px;
+  margin-right: 130px;
 }
 #solar-field .planet[data-order="4"] .title {
   display: none;
@@ -165,16 +165,16 @@ button:hover {
   width: 150px;
   height: 32px;
   padding: 0;
-  margin-right: 100px;
+  margin-right: 60px;
 }
 #solar-field .planet[data-order="5"] .title {
   display: none;
 }
 #solar-field .planet[data-order="6"] {
-  width: 112px;
-  height: 112px;
+  width: 140px;
+  height: 140px;
   padding: 0;
-  margin-right: 60px;
+  margin-right: 40px;
 }
 #solar-field .planet[data-order="6"] .title {
   display: none;
@@ -189,8 +189,8 @@ button:hover {
   display: none;
 }
 #solar-field .planet[data-order="8"] {
-  width: 112px;
-  height: 200px;
+  width: 80px;
+  height: 140px;
   padding: 0;
   margin-right: 60px;
 }
@@ -198,8 +198,8 @@ button:hover {
   display: none;
 }
 #solar-field .planet[data-order="9"] {
-  width: 112px;
-  height: 112px;
+  width: 80px;
+  height: 80px;
   padding: 0;
   margin-right: 60px;
 }
