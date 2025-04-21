@@ -1,3 +1,10 @@
+const returnButton = document.querySelectorAll(".returnButton");
+returnButton.forEach((element) =>
+  element.addEventListener("click", () => {
+    window.location.href = "https://maxim-prog292.github.io/Game-selection/";
+  })
+);
+
 const planets = [
   { name: "Меркурий", order: 1, img: "image/mercuriy.png" },
   { name: "Венера", order: 2, img: "image/venera.png" },
